@@ -5,13 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web components Udemy</title>
     <script src="tooltip.js"></script>
+    <script src="confirm-link.js"></script>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        html{
+            --color-primary: #a4fcda;
+            font-family: sans-serif;
+        }
+
+    </style>
+
 </head>
 <body>
-    <my-tooltip text="Web components is a set of standards">Hover over me!</my-tooltip>
+    <my-tooltip class="important" text="Web components is a set of standards"></my-tooltip>
     <br>
     <br>
     <br>
-    <my-tooltip >Hover over me!</my-tooltip>
-
+    <my-tooltip></my-tooltip>
+    <br>    <br>
+    <br>
+    <br>
+    <a is="my-confirm-link" href="https://www.google.com/">Google</a>
 </body>
 </html>

@@ -5,32 +5,81 @@ class Tooltip extends HTMLElement {
         this._tooltipText = "dummy text for tooltip";
         // you can access the shadow dom tree from outside this component or not, open or closed 
         this.attachShadow({ mode: "open" });
-    }
+        this.shadowRoot.innerHTML = `
+            <style>
+                div{
+                    font-weight:normal;
+                    background-color: black;
+                    color: white;
+                    position: absolute;
+                    z-index: 10;
+                    padding: 0.15rem
+                    border-radius: 3px;
+                    box-shadow: 1px 1px 6px rgba(0,0,0,0.26);
+                }
+                :host(.important){
+                    background: var(--color-primary, #ccc);
+                    padding: 0.15rem;
+                }
+
+                :host-context(p){
+                    font-weight: bold;
+                }
+
+                hightlight{
+                    background-color:red;
+                }
+
+                ::slotted(.highlight){
+                    border-bottom: 1px dotted red;
+                }
+
+                .icon{
+                    background: black;
+                    color: white;
+                    padding: 0.15rem 0.5rem;
+                    text-align:center;
+                    border-radius: 50%;
+                }
+            </style>
+            <slot>Some default</slot><span> (?)</span>`
+        }
 
     connectedCallback() {
         if(this.hasAttribute('text')) {
             this._tooltipText = this.getAttribute('text'); 
         }
-        const tooltipIcon = document.createElement("span");
-        tooltipIcon.textContent = ' (?)';
+
+        const tooltipIcon = this.shadowRoot.querySelector("span");
+
         tooltipIcon.addEventListener('mouseenter', this._showTooltip.bind(this));
         tooltipIcon.addEventListener('mouseleave', this._hideTooltip.bind(this));
-        this.appendChild(tooltipIcon);
+        this.shadowRoot.appendChild(tooltipIcon);
         this.style.position = "relative";
+    }
+
+    attributeChangedCallback(name, oldValue, newValue){
+        if(oldValue === newValue){
+            return;
+        }
+
+        if(name === 'text'){
+            this._tooltipText = newValue;
+        }
+    }
+
+    static get observedAttributes() {
+        return ['text'];
     }
 
     _showTooltip() {
         this._tooltipContainer = document.createElement("div");
         this._tooltipContainer.textContent = this._tooltipText;
-        this._tooltipContainer.style.backgroundColor = "black";
-        this._tooltipContainer.style.color = "white";
-        this._tooltipContainer.style.position = "absolute";
-        this._tooltipContainer.style.zIndex = "10";
-        this.appendChild(this._tooltipContainer);
+        this.shadowRoot.appendChild(this._tooltipContainer);
     }
 
     _hideTooltip() {
-        this.removeChild(this._tooltipContainer);
+        this.shadowRoot. removeChild(this._tooltipContainer);
     }
 }
 
