@@ -19,9 +19,15 @@ class Tooltip extends HTMLElement {
                     border-radius: 3px;
                     box-shadow: 1px 1px 6px rgba(0,0,0,0.26);
                 }
+
+                :host{
+                    position:relative;
+                }
+
                 :host(.important){
                     background: var(--color-primary, #ccc);
                     padding: 0.15rem;
+                    position:relative;
                 }
 
                 :host-context(p){
@@ -57,7 +63,6 @@ class Tooltip extends HTMLElement {
         this._tooltipIcon.addEventListener('mouseenter', this._showTooltip.bind(this));
         this._tooltipIcon.addEventListener('mouseleave', this._hideTooltip.bind(this));
         this.shadowRoot.appendChild(tooltipIcon);
-        this.style.position = "relative";
         this._render();
     }
 

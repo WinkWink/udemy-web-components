@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Lesson</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        *{
+            box-sizing: border-box;
+
+        }   
+
+        body{
+            margin:2rem;
+            font-family: sans-serif;
+        }
+    </style>
+    <script src="modal.js"></script>
+</head>
+<body>
+    <my-modal>
+        <h1 slot="title">Please Confirm</h1>
+        <p>fjeisfjiosafjsoiafjaoifjsioafjsaoifjsoifjsaoifjsaiofjsao</p>
+    </my-modal>
+    <p>Please confirm your choice</p>
+    <button>Show details and confirm</button>
+<script>
+    const confirmButton = document.querySelector('button');
+    const modal = document.querySelector('my-modal');
+
+    modal.addEventListener( 'confirm', () => {
+        console.log("confirmed");
+    });
+
+    modal.addEventListener( 'cancel', () => {
+        console.log("cancelled");
+    });
+
+    confirmButton.addEventListener('click', () => {
+        if(!modal.isOpen)
+        modal.open();
+        });
+</script>
+</body>
+</html>
